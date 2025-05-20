@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.kzjzdatabase.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.example.kzjzdatabase.entity.User">
+        <result column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="permissiontime" jdbcType="TIMESTAMP" property="permissiontime"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="create_time"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="update_time"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select * from user;
+    </select>
+
+    <insert id="insert" parameterType="com.example.kzjzdatabase.entity.User">
+        INSERT INTO User (account,username, password, email, phonenumber)
+        VALUES(#{account},#{username}, #{password}, #{email}, #{phonenumber})
+    </insert>
+
+    <select id="loginuser" parameterType="String" resultType="String">
+        select password from User where account = #{account}
+    </select>
+
+    <select id="getuserid" parameterType="String" resultType="int">
+        select id from User where account = #{account}
+    </select>
+
+
+    <update id="update" parameterType="com.example.kzjzdatabase.entity.ReceiveObj.UpdateRecive">
+        update user
+        <if test="changeline=='username'">
+            <set>
+                username = #{value},
+            </set>
+        </if>
+        <if test="changeline=='password'">
+            <set>
+                password = #{value},
+            </set>
+        </if>
+        <if test="changeline=='email'">
+            <set>
+                email = #{value},
+            </set>
+        </if>
+        <if test="changeline=='phone'">
+            <set>
+                phone = #{value},
+            </set>
+        </if>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from user where id = #{id}
+    </delete>
+
+    <select id="checkuserbyaccount" parameterType="String" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END
+        FROM User
+        WHERE account = #{account}
+    </select>
+
+    <select id="checkuserbyname" parameterType="String" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END
+        FROM User
+        WHERE username = #{name}
+    </select>
+
+    <select id="checkuserbyphonenumber" parameterType="String" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END
+        FROM User
+        WHERE phonenumber = #{phonenumber}
+    </select>
+
+    <select id="checkuserbyemail" parameterType="String" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END
+        FROM User
+        WHERE email = #{email}
+    </select>
+
+    <select id="getphonenumber" parameterType="String" resultType="String">
+        SELECT phonenumber,email from user where account = #{name}
+    </select>
+
+    <select id="findUserName" parameterType="String" resultType="String">
+        select username from user where account = #{account}
+    </select>
+
+    <select id="findPhoneNumber" parameterType="String" resultType="String">
+        select phonenumber from user where account = #{account}
+    </select>
+
+    <select id="findEmail" parameterType="String" resultType="String">
+        select email from user where account = #{account}
+    </select>
+
+</mapper>

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.kzjzdatabase.mapper.KssindexMapper">
+    <resultMap id="BaseResultMap" type="com.example.kzjzdatabase.entity.Kssindex">
+        <result column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="showflag" jdbcType="INTEGER" property="showflag"/>
+        <result column="ofname" jdbcType="VARCHAR" property="ofname"/>
+        <result column="notes" jdbcType="VARCHAR" property="notes"/>
+        <result column="resume" jdbcType="VARCHAR" property="resume"/>
+        <result column="picture_url" jdbcType="VARCHAR" property="picture_url"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="create_time"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="update_time"/>
+    </resultMap>
+    
+
+    <insert id="kssindexcreate" parameterType="com.example.kzjzdatabase.entity.Kssindex">
+        INSERT ignore INTO kssindex (id,showflag,ofname,notes,resume,picture_url)
+        VALUES(#{id},#{showflag},#{ofname},#{notes},#{resume},#{picture_url})
+    </insert>
+
+    <delete id="kssindexdeletebyofname" parameterType="java.lang.String">
+        delete from kssindex where ofname = #{ofname}
+    </delete>
+
+    <update id="kssindexUpdateAllFieds" parameterType="com.example.kzjzdatabase.entity.ReceiveObj.UpdateReciveAll">
+        update kssindex SET picture_url = #{picture_url}, ofname = #{ofname}, notes = #{notes}, resume = #{resume}
+        WHERE id = #{id}
+    </update>
+
+    <update id="kssindexupdate" parameterType="com.example.kzjzdatabase.entity.ReceiveObj.UpdateRecive">
+        update kssindex SET ofname = #{ofname}
+        <if test="changeline=='showflag'">
+            <set>
+                showflag = #{value},
+            </set>
+        </if>
+        <if test="changeline=='picture_url'">
+            <set>
+                picture_url = #{value},
+            </set>
+        </if>
+        <if test="changeline=='ofname'">
+            <set>
+                ofname = #{value},
+            </set>
+        </if>
+        <if test="changeline=='notes'">
+            <set>
+                notes = #{value},
+            </set>
+        </if>
+        <if test="changeline=='resume'">
+            <set>
+                resume = #{value},
+            </set>
+        </if>
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="getkssindexbyid" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * FROM kssindex where id = #{id}
+    </select>
+
+
+    <select id="getkssindex" parameterType="com.example.kzjzdatabase.entity.GBList" resultMap="BaseResultMap">
+        <if test="len==1">
+            SELECT * FROM kssindex where concat_ws(ofname,notes,resume) LIKE #{str1}
+        </if>
+        <if test="len==2">
+            SELECT * FROM kssindex where concat_ws(ofname,notes,resume) LIKE #{str1} AND concat_ws(ofname,notes,resume) LIKE #{str2}
+        </if>
+        <if test="len==3">
+            SELECT * FROM kssindex where concat_ws(ofname,notes,resume) LIKE #{str1} AND concat_ws(ofname,notes,resume) LIKE #{str2} AND concat_ws(ofname,notes,resume) LIKE #{str3}
+        </if>
+        <if test="len==4">
+            SELECT * FROM kssindex where concat_ws(ofname,notes,resume) LIKE #{str1} AND concat_ws(ofname,notes,resume) LIKE #{str2} AND concat_ws(ofname,notes,resume) LIKE #{str3} AND concat_ws(ofname,notes,resume) LIKE #{str4}
+        </if>
+        <if test="len>=5">
+            SELECT * FROM kssindex where concat_ws(ofname,notes,resume) LIKE #{str1} AND concat_ws(ofname,notes,resume) LIKE #{str2} AND concat_ws(ofname,notes,resume) LIKE #{str3} AND concat_ws(ofname,notes,resume) LIKE #{str4} AND concat_ws(ofname,notes,resume) LIKE #{str5}
+        </if>
+    </select>
+
+
+    <select id="getKssIndex_scope" parameterType="com.example.kzjzdatabase.entity.GBList_scope" resultMap="BaseResultMap">
+        <if test="len==1">
+            SELECT * FROM kssindex where
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str1}
+        </if>
+        <if test="len==2">
+            SELECT * FROM kssindex where
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str1} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str2}
+        </if>
+        <if test="len==3">
+            SELECT * FROM kssindex where
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str1} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str2} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str3}
+        </if>
+        <if test="len==4">
+            SELECT * FROM kssindex where
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str1} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str2} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str3} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str4}
+        </if>
+        <if test="len>=5">
+            SELECT * FROM kssindex where
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str1} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str2} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str3} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str4} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str5}
+        </if>
+    </select>
+</mapper>

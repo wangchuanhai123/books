@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.kzjzdatabase.mapper.HomeMapper">
+    <resultMap id="BaseResultMap" type="com.example.kzjzdatabase.entity.Home.Home">
+        <result column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="permission" jdbcType="INTEGER" property="permission"/>
+        <result column="ofname" jdbcType="VARCHAR" property="ofname"/>
+        <result column="ofkind" jdbcType="VARCHAR" property="ofkind"/>
+        <result column="keywords" jdbcType="VARCHAR" property="keywords"/>
+        <result column="resume" jdbcType="VARCHAR" property="resume"/>
+        <result column="mainresponsible1" jdbcType="VARCHAR" property="mainresponsible1"/>
+        <result column="mainresponsible2" jdbcType="VARCHAR" property="mainresponsible2"/>
+        <result column="secondresponsible" jdbcType="VARCHAR" property="secondresponsible"/>
+        <result column="publisher" jdbcType="VARCHAR" property="publisher"/>
+        <result column="publishedplace" jdbcType="VARCHAR" property="publishedplace"/>
+        <result column="publishedtime" jdbcType="VARCHAR" property="publishedtime"/>
+        <result column="file_url" jdbcType="VARCHAR" property="file_url"/>
+        <result column="picture_url" jdbcType="VARCHAR" property="picture_url"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="create_time"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="update_time"/>
+        <result column="notes" jdbcType="VARCHAR" property="notes"/>
+        <result column="ids" jdbcType="VARCHAR" property="ids"/>
+    </resultMap>
+
+    <insert id="addToHome" parameterType="com.example.kzjzdatabase.entity.Home.Home">
+        INSERT INTO home (id,permission,ofname,ofkind,keywords,resume,mainresponsible1,mainresponsible2,secondresponsible,publisher,publishedplace,publishedtime,file_url,picture_url,notes,oftype)
+        VALUES(#{id},#{permission},#{ofname},#{ofkind},#{keywords},#{resume},#{mainresponsible1},#{mainresponsible2},#{secondresponsible},#{publisher},#{publishedplace},#{publishedtime},#{file_url},#{picture_url},#{notes},#{oftype})
+    </insert>
+
+    <select id="getHomeByOfKind" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * FROM home where ofkind = #{ofkind}
+    </select>
+
+    <delete id="deleteFromHome" parameterType="java.lang.String">
+        delete from home where id = #{id}
+    </delete>
+
+    <update id="updateHomeById" parameterType="com.example.kzjzdatabase.entity.ReceiveObj.UpdateRecive">
+        update home
+        <if test="changeline=='permission'">
+            <set>
+                permission = #{value},
+            </set>
+        </if>
+        <if test="changeline=='ofname'">
+            <set>
+                ofname = #{value},
+            </set>
+        </if>
+        <if test="changeline=='ofkind'">
+            <set>
+                ofkind = #{value},
+            </set>
+        </if>
+        <if test="changeline=='keywords'">
+            <set>
+                keywords = #{value},
+            </set>
+        </if>
+        <if test="changeline=='resume'">
+            <set>
+                resume = #{value},
+            </set>
+        </if>
+        <if test="changeline=='mainresponsible1'">
+            <set>
+                mainresponsible1 = #{value},
+            </set>
+        </if>
+        <if test="changeline=='mainresponsible2'">
+            <set>
+                mainresponsible2 = #{value},
+            </set>
+        </if>
+        <if test="changeline=='secondresponsible'">
+            <set>
+                secondresponsible = #{value},
+            </set>
+        </if>
+        <if test="changeline=='publisher'">
+            <set>
+                publisher = #{value},
+            </set>
+        </if>
+        <if test="changeline=='publishedplace'">
+            <set>
+                publishedplace = #{value},
+            </set>
+        </if>
+        <if test="changeline=='publishedtime'">
+            <set>
+                publishedtime = #{value},
+            </set>
+        </if>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateHomeKssIndex" parameterType="com.example.kzjzdatabase.entity.ReceiveObj.UpdateReciveAll">
+        update home SET picture_url = #{picture_url}, ofname = #{ofname}, notes = #{notes}, resume = #{resume}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateHomeSpecialIndex" parameterType="com.example.kzjzdatabase.entity.ReceiveObj.SpecialUpdateReceiveAll">
+        update home SET picture_url = #{picture_url}, ofname = #{ofname}, resume = #{resume}
+        WHERE id = #{id}
+    </update>
+</mapper>

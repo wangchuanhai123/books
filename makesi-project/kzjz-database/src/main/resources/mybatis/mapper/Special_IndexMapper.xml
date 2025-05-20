@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.kzjzdatabase.mapper.Special_IndexMapper">
+    <resultMap id="BaseResultMap" type="com.example.kzjzdatabase.entity.Special_Index">
+        <result column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="showflag" jdbcType="INTEGER" property="showflag"/>
+        <result column="ofname" jdbcType="VARCHAR" property="ofname"/>
+        <result column="resume" jdbcType="VARCHAR" property="resume"/>
+        <result column="ids" jdbcType="VARCHAR" property="ids"/>
+        <result column="picture_url" jdbcType="VARCHAR" property="picture_url"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="create_time"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="update_time"/>
+    </resultMap>
+    <resultMap id="BaseResultMap2" type="com.example.kzjzdatabase.entity.Updateids">
+        <result column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="ids" jdbcType="INTEGER" property="ids"/>
+    </resultMap>
+
+    <insert id="specialindexcreate" parameterType="com.example.kzjzdatabase.entity.Special_Index">
+        INSERT ignore INTO specialindex (id,showflag,ofname,resume,ids,picture_url)
+        VALUES(#{id},#{showflag},#{ofname},#{resume},#{ids},#{picture_url})
+    </insert>
+
+    <delete id="specialindexdeletebyofname" parameterType="java.lang.String">
+        delete from specialindex where ofname = #{ofname}
+    </delete>
+
+    <update id="specialIndexUpdateAllFieds" parameterType="com.example.kzjzdatabase.entity.ReceiveObj.SpecialUpdateReceiveAll">
+        update specialindex SET picture_url = #{picture_url}, ofname = #{ofname}, resume = #{resume}
+        WHERE id = #{id}
+    </update>
+
+    <update id="specialindexupdate" parameterType="com.example.kzjzdatabase.entity.ReceiveObj.UpdateRecive">
+        update specialindex
+        <if test="changeline=='showflag'">
+            <set>
+                showflag = #{value},
+            </set>
+        </if>
+        <if test="changeline=='ofname'">
+            <set>
+                ofname = #{value},
+            </set>
+        </if>
+        <if test="changeline=='resume'">
+            <set>
+                resume = #{value},
+            </set>
+        </if>
+        WHERE id = #{id}
+    </update>
+
+    <update id="specialindexupdateids" parameterType="com.example.kzjzdatabase.entity.Updateids">
+        update specialindex set ids = #{ids}, kinds = #{kinds} WHERE id = #{id}
+    </update>
+
+    <select id="getspecialindexbyid" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * FROM specialindex where id = #{id}
+    </select>
+
+    <select id="getspecialindex" parameterType="com.example.kzjzdatabase.entity.GBList" resultMap="BaseResultMap">
+        <if test="len==1">
+            SELECT * FROM specialindex where concat_ws(ofname,resume) LIKE #{str1}
+        </if>
+        <if test="len==2">
+            SELECT * FROM specialindex where concat_ws(ofname,resume) LIKE #{str1} AND concat_ws(ofname,resume) LIKE #{str2}
+        </if>
+        <if test="len==3">
+            SELECT * FROM specialindex where concat_ws(ofname,resume) LIKE #{str1} AND concat_ws(ofname,resume) LIKE #{str2} AND concat_ws(ofname,resume) LIKE #{str3}
+        </if>
+        <if test="len==4">
+            SELECT * FROM specialindex where concat_ws(ofname,resume) LIKE #{str1} AND concat_ws(ofname,resume) LIKE #{str2} AND concat_ws(ofname,resume) LIKE #{str3} AND concat_ws(ofname,resume) LIKE #{str4}
+        </if>
+        <if test="len>=5">
+            SELECT * FROM specialindex where concat_ws(ofname,resume) LIKE #{str1} AND concat_ws(ofname,resume) LIKE #{str2} AND concat_ws(ofname,resume) LIKE #{str3} AND concat_ws(ofname,resume) LIKE #{str4} AND concat_ws(ofname,resume) LIKE #{str5}
+        </if>
+    </select>
+
+    <select id="getspecialindexidids" resultMap="BaseResultMap2">
+        SELECT id,ids FROM specialindex
+    </select>
+
+    <select id="getSpecialElementIdAndKind" parameterType="java.lang.String" resultMap="BaseResultMap2">
+        SELECT id, ids, kinds FROM specialindex WHERE id = #{id}
+    </select>
+
+    <select id="getSpecialIndexScope" parameterType="com.example.kzjzdatabase.entity.GBList_scope" resultMap="BaseResultMap">
+        <if test="len==1">
+            SELECT * FROM specialindex where
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str1}
+        </if>
+        <if test="len==2">
+            SELECT * FROM kssindex where
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str1} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str2}
+        </if>
+        <if test="len==3">
+            SELECT * FROM kssindex where
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str1} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str2} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str3}
+        </if>
+        <if test="len==4">
+            SELECT * FROM kssindex where
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str1} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str2} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str3} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str4}
+        </if>
+        <if test="len>=5">
+            SELECT * FROM kssindex where
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str1} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str2} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str3} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str4} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str5}
+        </if>
+    </select>
+</mapper>

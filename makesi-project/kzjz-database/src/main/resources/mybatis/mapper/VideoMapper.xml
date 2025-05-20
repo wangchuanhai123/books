@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.kzjzdatabase.mapper.VideoMapper">
+    <resultMap id="BaseResultMap2" type="com.example.kzjzdatabase.entity.Video.Video_NoUrl">
+        <result column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="permission" jdbcType="INTEGER" property="permission"/>
+        <result column="ofname" jdbcType="VARCHAR" property="ofname"/>
+        <result column="ofkind" jdbcType="VARCHAR" property="ofkind"/>
+        <result column="keywords" jdbcType="VARCHAR" property="keywords"/>
+        <result column="resume" jdbcType="VARCHAR" property="resume"/>
+        <result column="mainresponsible1" jdbcType="VARCHAR" property="mainresponsible1"/>
+        <result column="mainresponsible2" jdbcType="VARCHAR" property="mainresponsible2"/>
+        <result column="secondresponsible" jdbcType="VARCHAR" property="secondresponsible"/>
+        <result column="publisher" jdbcType="VARCHAR" property="publisher"/>
+        <result column="publishedplace" jdbcType="VARCHAR" property="publishedplace"/>
+        <result column="publishedtime" jdbcType="VARCHAR" property="publishedtime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="create_time"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="update_time"/>
+    </resultMap>
+    <resultMap id="BaseResultMap" type="com.example.kzjzdatabase.entity.Video.Video">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="permission" jdbcType="INTEGER" property="permission"/>
+        <result column="ofname" jdbcType="VARCHAR" property="ofname"/>
+        <result column="ofkind" jdbcType="VARCHAR" property="ofkind"/>
+        <result column="keywords" jdbcType="VARCHAR" property="keywords"/>
+        <result column="resume" jdbcType="VARCHAR" property="resume"/>
+        <result column="mainresponsible1" jdbcType="VARCHAR" property="mainresponsible1"/>
+        <result column="mainresponsible2" jdbcType="VARCHAR" property="mainresponsible2"/>
+        <result column="secondresponsible" jdbcType="VARCHAR" property="secondresponsible"/>
+        <result column="publisher" jdbcType="VARCHAR" property="publisher"/>
+        <result column="publishedplace" jdbcType="VARCHAR" property="publishedplace"/>
+        <result column="publishedtime" jdbcType="VARCHAR" property="publishedtime"/>
+        <result column="file_url" jdbcType="VARCHAR" property="file_url"/>
+        <result column="picture_url" jdbcType="VARCHAR" property="picture_url"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="create_time"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="update_time"/>
+    </resultMap>
+
+    <insert id="videocreate" parameterType="com.example.kzjzdatabase.entity.Video.Video" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO videos (id,permission,ofname,ofkind,keywords,resume,mainresponsible1,mainresponsible2,secondresponsible,publisher,publishedplace,publishedtime,file_url,picture_url)
+        VALUES(#{id},#{permission},#{ofname},#{ofkind},#{keywords},#{resume},#{mainresponsible1},#{mainresponsible2},#{secondresponsible},#{publisher},#{publishedplace},#{publishedtime},#{file_url},#{picture_url})
+    </insert>
+
+    <select id="getVideos_byid" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * FROM videos where id = #{id}
+    </select>
+
+    <update id="videoupdate" parameterType="com.example.kzjzdatabase.entity.ReceiveObj.UpdateRecive">
+        update videos
+        <if test="changeline=='permission'">
+            <set>
+                permission = #{value},
+            </set>
+        </if>
+        <if test="changeline=='ofname'">
+            <set>
+                ofname = #{value},
+            </set>
+        </if>
+        <if test="changeline=='ofkind'">
+            <set>
+                ofkind = #{value},
+            </set>
+        </if>
+        <if test="changeline=='keywords'">
+            <set>
+                keywords = #{value},
+            </set>
+        </if>
+        <if test="changeline=='resume'">
+            <set>
+                resume = #{value},
+            </set>
+        </if>
+        <if test="changeline=='mainresponsible1'">
+            <set>
+                mainresponsible1 = #{value},
+            </set>
+        </if>
+        <if test="changeline=='mainresponsible2'">
+            <set>
+                mainresponsible2 = #{value},
+            </set>
+        </if>
+        <if test="changeline=='secondresponsible'">
+            <set>
+                secondresponsible = #{value},
+            </set>
+        </if>
+        <if test="changeline=='publisher'">
+            <set>
+                publisher = #{value},
+            </set>
+        </if>
+        <if test="changeline=='publishedplace'">
+            <set>
+                publishedplace = #{value},
+            </set>
+        </if>
+        <if test="changeline=='publishedtime'">
+            <set>
+                publishedtime = #{value},
+            </set>
+        </if>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="videodelete" parameterType="java.lang.String">
+        delete from videos where id = #{id, jdbcType=INTEGER}
+    </delete>
+
+
+    <select id="getVideos_nourl" parameterType="com.example.kzjzdatabase.entity.GBList" resultMap="BaseResultMap2">
+        <if test="len==1">
+            SELECT id,permission,ofname,ofkind,keywords,resume,mainresponsible1,mainresponsible2,secondresponsible,publisher,publishedplace,publishedtime,create_time,update_time FROM videos where concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str1}
+        </if>
+        <if test="len==2">
+            SELECT id,permission,ofname,ofkind,keywords,resume,mainresponsible1,mainresponsible2,secondresponsible,publisher,publishedplace,publishedtime,create_time,update_time FROM videos where concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str1} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str2}
+        </if>
+        <if test="len==3">
+            SELECT id,permission,ofname,ofkind,keywords,resume,mainresponsible1,mainresponsible2,secondresponsible,publisher,publishedplace,publishedtime,create_time,update_time FROM videos where concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str1} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str2} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str3}
+        </if>
+        <if test="len==4">
+            SELECT id,permission,ofname,ofkind,keywords,resume,mainresponsible1,mainresponsible2,secondresponsible,publisher,publishedplace,publishedtime,create_time,update_time FROM videos where concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str1} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str2} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str3} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str4}
+        </if>
+        <if test="len>=5">
+            SELECT id,permission,ofname,ofkind,keywords,resume,mainresponsible1,mainresponsible2,secondresponsible,publisher,publishedplace,publishedtime,create_time,update_time FROM videos where concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str1} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str2} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str3} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str4} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str5}
+        </if>
+    </select>
+
+    <select id="getVideos" parameterType="com.example.kzjzdatabase.entity.GBList" resultMap="BaseResultMap">
+        <if test="len==1">
+            SELECT * FROM videos where concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str1}
+        </if>
+        <if test="len==2">
+            SELECT * FROM videos where concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str1} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str2}
+        </if>
+        <if test="len==3">
+            SELECT * FROM videos where concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str1} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str2} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str3}
+        </if>
+        <if test="len==4">
+            SELECT * FROM videos where concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str1} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str2} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str3} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str4}
+        </if>
+        <if test="len>=5">
+            SELECT * FROM videos where concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str1} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str2} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str3} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str4} AND concat_ws(ofname,ofkind,keywords,mainresponsible1) LIKE #{str5}
+        </if>
+    </select>
+
+    <select id="getVideos_scope" parameterType="com.example.kzjzdatabase.entity.GBList_scope" resultMap="BaseResultMap">
+        <if test="len==1">
+            SELECT * FROM videos where
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str1}
+        </if>
+        <if test="len==2">
+            SELECT * FROM videos where
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str1} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str2}
+        </if>
+        <if test="len==3">
+            SELECT * FROM videos where
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str1} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str2} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str3}
+        </if>
+        <if test="len==4">
+            SELECT * FROM videos where
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str1} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str2} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str3} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str4}
+        </if>
+        <if test="len>=5">
+            SELECT * FROM videos where
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str1} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str2} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str3} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str4} AND
+            <choose>
+                <when test="scope=='ofname'">
+                    ofname
+                </when>
+                <when test="scope=='ofkind'">
+                    ofkind
+                </when>
+                <when test="scope=='keywords'">
+                    keywords
+                </when>
+                <when test="scope=='mainresponsible1'">
+                    mainresponsible1
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            LIKE #{str5}
+        </if>
+    </select>
+
+</mapper>

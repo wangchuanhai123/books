@@ -1,0 +1,11 @@
+.parent-back{
+    display: flex;
+    min-width: 1250px;
+    width: 100%;
+    justify-content: center;
+    background-color: rgb(240, 240, 240);
+}
+
+.child-back{
+    width: 1250px;
+}
